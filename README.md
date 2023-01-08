@@ -1,7 +1,12 @@
 # scopeX
-Golang script to exclude out-of-scope from a list of subdomains
+This Go script is designed to assist with the management of scope in a bug bounty program. It accepts a list of subdomains as input via stdin and an exclude JSON object. The script processes the input and filters out any subdomains specified in the exclude JSON object. The resulting output is a list of subdomains that are not excluded and can be used as the updated scope for the bug bounty program. This script can be particularly useful in ensuring that out-of-scope domains are not included in the scope by mistake, allowing bounty hunters to focus their efforts on domains that are within the scope of the program.
 
-## Examples:
+## Install
+```bash
+go install github.com/xhzeem/scopeX@latest
+```
+
+## Examples
 
 ### Mode 1
 Mode 1: filter by subdmoains, input [sub]
