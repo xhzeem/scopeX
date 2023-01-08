@@ -12,8 +12,7 @@ import (
 
 type ExObject struct {
 	Sub []string `json:"sub"`
-	Ip  []string `json:"ip"`
-	cnm []string `json:"cnm"`
+	Dns  []string `json:"dns"`
 }
 
 func main() {
@@ -60,18 +59,18 @@ func main() {
 					fmt.Println(iSub)
 				}
 			
-			case 2: 	// IP Mode
+			case 2: 	// DNS Mode
 				iLine := strings.Split(line.Text(), " ")
 				iSub := iLine[0]
-				iIPList := strings.Split(iLine[1], ",")
+				iDNSList := strings.Split(iLine[1], ",")
 
 				matched := false
 
-				for _, iIP := range iIPList {
+				for _, iDNS := range iDNSList {
 					matched = false
-					for _, fIP := range inputJSON.Ip {
-						// Check if the IP is excluded
-						if iIP == fIP {
+					for _, fDNS := range inputJSON.Dns {
+						// Check if the DNS is excluded
+						if iDNS == fDNS {
 							matched = true
 							break
 						}
@@ -81,17 +80,13 @@ func main() {
 				if !matched {
 					fmt.Println(iSub)
 				}
-			
-			case 3: 	// CNAME Mode
-				fmt.Println("CNAME Mode")
 
 			case 0:
 				fallthrough
 			default:
 				fmt.Fprintln(os.Stderr, "Modes Available:")
 				fmt.Fprintln(os.Stderr, "Mode 1: filter by subdmoains, input [sub]")
-				fmt.Fprintln(os.Stderr, "Mode 2: filter by IP address, input [sub ip,ip]")
-				fmt.Fprintln(os.Stderr, "Mode 3: filter by cname, input: [sub cname,cname]")
+				fmt.Fprintln(os.Stderr, "Mode 2: filter by DNS record, input [sub ip,cname,txt]")
 				os.Exit(1)
 		}
 
