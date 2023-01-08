@@ -21,7 +21,7 @@ local.xhzeem.me
 ```
 
 ```bash
-echo all-xhzeem.me.txt | scopeX -x '{"sub":["*beta.xhzeem.me"],"dns":["8.254.3.254", "cnm.github.com"]}' -m 1
+cat all-xhzeem.me.txt | scopeX -x '{"sub":["*beta.xhzeem.me"],"dns":["8.254.3.254", "cnm.github.com"]}' -m 1
 
 # all-xhzeem.me.txt will have a list of subdomains, will filter and remove anything maches ^*.beta.xhzeem.me$
 ```
@@ -39,7 +39,7 @@ local.xhzeem.me 127.0.0.1
 ```
 
 ```bash
-echo dns-xhzeem.me.txt | scopeX -x '{"sub":["*.beta.xhzeem.me"],"dns":["8.254.3.254", "cnm.github.com"]}' -m 2
+cat dns-xhzeem.me.txt | scopeX -x '{"sub":["*.beta.xhzeem.me"],"dns":["8.254.3.254", "cnm.github.com"]}' -m 2
 
 # dns-xhzeem.me.txt will have a list of subdomains, then a space, then a comma separated DNS records, will filter and remove any in the list ["8.254.3.254", "cnm.github.com"]
 ```
