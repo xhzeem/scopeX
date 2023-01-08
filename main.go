@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"strings"
 	"encoding/json"
 )
 
@@ -32,13 +33,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	// read URLs on stdin, and print if not excluded
-	sc := bufio.NewScanner(os.Stdin)
-	for sc.Scan() {
-
+	// read from stdin, and print if not excluded
+	line := bufio.NewScanner(os.Stdin)
+	
+	for line.Scan() {
 		switch filterMode {
 			case 1: 	// Subdmoains Mode
-				iSub := sc.Text()
+				iSub := line.Text()
 				matched := false
 				// Iterate over the list of regexes in inputJSON.Sub
 				for _, fSub := range inputJSON.Sub {
@@ -60,7 +61,26 @@ func main() {
 				}
 			
 			case 2: 	// IP Mode
-				fmt.Println("IP Mode")
+				iLine := strings.Split(line.Text(), " ")
+				iSub := iLine[0]
+				iIPList := strings.Split(iLine[1], ",")
+
+				matched := false
+
+				for _, iIP := range iIPList {
+					matched = false
+					for _, fIP := range inputJSON.Ip {
+						// Check if the IP is excluded
+						if iIP == fIP {
+							matched = true
+							break
+						}
+					}
+				}
+
+				if !matched {
+					fmt.Println(iSub)
+				}
 			
 			case 3: 	// CNAME Mode
 				fmt.Println("CNAME Mode")
@@ -68,9 +88,10 @@ func main() {
 			case 0:
 				fallthrough
 			default:
-				fmt.Fprintln(os.Stderr, "--mode 1: filter by subdmoains, input [sub]")
-				fmt.Fprintln(os.Stderr, "--mode 2: filter by IP address, input [sub, ip]")
-				fmt.Fprintln(os.Stderr, "--mode 3: filter by cname, input: [sub, cname]")
+				fmt.Fprintln(os.Stderr, "Modes Available:")
+				fmt.Fprintln(os.Stderr, "Mode 1: filter by subdmoains, input [sub]")
+				fmt.Fprintln(os.Stderr, "Mode 2: filter by IP address, input [sub ip,ip]")
+				fmt.Fprintln(os.Stderr, "Mode 3: filter by cname, input: [sub cname,cname]")
 				os.Exit(1)
 		}
 
